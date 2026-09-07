@@ -1,0 +1,6 @@
+{
+  "name": "RoyalBase",
+  "description": "GameFi tipping protocol di Base chain dengan wagmi v2, viem v2, dan RainbowKit v2",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
