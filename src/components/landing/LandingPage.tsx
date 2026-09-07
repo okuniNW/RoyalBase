@@ -32,7 +32,7 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Step 1 */}
           <div className="sky-card rounded-3xl p-6 sm:p-7 text-left hover:bg-white/90 transition-all duration-200">
-            <div className="w-12 h-12 rounded-2xl bg-lime-300 text-slate-950 flex items-center justify-center font-mono font-black text-lg mb-4 shadow-[0_2px_8px_rgba(163,230,53,0.4)] border border-lime-200">
+            <div className="w-12 h-12 rounded-2xl bg-[#0052FF] text-white flex items-center justify-center font-mono font-black text-lg mb-4 shadow-[0_4px_12px_rgba(0,82,255,0.35)] border border-blue-400/30">
               01
             </div>
             <h3 className="text-lg font-black text-slate-950">Koneksikan Wallet Base</h3>
@@ -40,14 +40,14 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
               Gunakan RainbowKit dengan MetaMask, Coinbase Wallet, atau Rabby. Pastikan jaringan terhubung ke Base Mainnet (Chain ID 8453).
             </p>
             <div className="mt-5 pt-3 border-t border-sky-100 text-[11px] font-mono text-sky-900 font-bold flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-[#0052FF]" />
               <span>Zero setup & non-custodial</span>
             </div>
           </div>
 
           {/* Step 2 */}
           <div className="sky-card rounded-3xl p-6 sm:p-7 text-left hover:bg-white/90 transition-all duration-200">
-            <div className="w-12 h-12 rounded-2xl bg-lime-300 text-slate-950 flex items-center justify-center font-mono font-black text-lg mb-4 shadow-[0_2px_8px_rgba(163,230,53,0.4)] border border-lime-200">
+            <div className="w-12 h-12 rounded-2xl bg-[#0052FF] text-white flex items-center justify-center font-mono font-black text-lg mb-4 shadow-[0_4px_12px_rgba(0,82,255,0.35)] border border-blue-400/30">
               02
             </div>
             <h3 className="text-lg font-black text-slate-950">Kirim Tip Instan</h3>
@@ -55,14 +55,14 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
               Pilih kreator favorit dan tentukan jumlah ETH. 98% dana langsung masuk ke wallet kreator, 2% disalurkan ke Prize Pool harian.
             </p>
             <div className="mt-5 pt-3 border-t border-sky-100 text-[11px] font-mono text-sky-900 font-bold flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-[#0052FF]" />
               <span>Biaya gas L2 sub-cent</span>
             </div>
           </div>
 
           {/* Step 3 */}
           <div className="sky-card rounded-3xl p-6 sm:p-7 text-left hover:bg-white/90 transition-all duration-200">
-            <div className="w-12 h-12 rounded-2xl bg-lime-300 text-slate-950 flex items-center justify-center font-mono font-black text-lg mb-4 shadow-[0_2px_8px_rgba(163,230,53,0.4)] border border-lime-200">
+            <div className="w-12 h-12 rounded-2xl bg-[#0052FF] text-white flex items-center justify-center font-mono font-black text-lg mb-4 shadow-[0_4px_12px_rgba(0,82,255,0.35)] border border-blue-400/30">
               03
             </div>
             <h3 className="text-lg font-black text-slate-950">Dapatkan RP & Tiket Pool</h3>
@@ -70,7 +70,7 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
               Smart contract RoyalPoints secara otomatis mencatat poin Anda, meningkatkan Tier loyalty, dan mendaftarkan tiket undian pool.
             </p>
             <div className="mt-5 pt-3 border-t border-sky-100 text-[11px] font-mono text-sky-900 font-bold flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-[#0052FF]" />
               <span>Tier booster hingga 3.0x</span>
             </div>
           </div>
@@ -82,8 +82,8 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
         <div className="sky-card rounded-3xl p-6 sm:p-10 text-left">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-xs border border-white text-[11px] font-mono font-bold text-slate-900 mb-3 shadow-xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-xs border border-white text-[11px] font-mono font-bold text-[#0052FF] mb-3 shadow-xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#0052FF]" />
                 TRANSPARANSI TINGKAT PROTOKOL
               </div>
               <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
@@ -95,15 +95,15 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
 
               <div className="mt-6 space-y-2.5 text-xs sm:text-sm text-slate-800 font-semibold">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">✓</div>
+                  <div className="w-5 h-5 rounded-full bg-blue-100 text-[#0052FF] flex items-center justify-center font-bold text-xs">✓</div>
                   <span>Non-Kustodial: Kontrak tidak menahan saldo pengguna</span>
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">✓</div>
+                  <div className="w-5 h-5 rounded-full bg-blue-100 text-[#0052FF] flex items-center justify-center font-bold text-xs">✓</div>
                   <span>98% Alokasi Langsung: Kreator menerima dana dalam 1 blok</span>
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">✓</div>
+                  <div className="w-5 h-5 rounded-full bg-blue-100 text-[#0052FF] flex items-center justify-center font-bold text-xs">✓</div>
                   <span>Ledger Poin Onchain: RoyalPoints tercatat permanen di Base</span>
                 </div>
               </div>
@@ -111,7 +111,7 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
               <div className="mt-8 flex items-center gap-4">
                 <button
                   onClick={onLaunchApp}
-                  className="px-6 py-3 rounded-full bg-lime-400 hover:bg-lime-300 text-slate-950 text-xs font-black flex items-center gap-2 shadow-[0_2px_10px_rgba(163,230,53,0.4)] border border-lime-300 transition-all cursor-pointer"
+                  className="px-6 py-3 rounded-full bg-[#0052FF] hover:bg-[#0045d8] text-white text-xs font-black flex items-center gap-2 shadow-[0_4px_16px_rgba(0,82,255,0.4)] border border-blue-400/40 transition-all cursor-pointer"
                 >
                   <span>Mulai Tipping Sekarang</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -177,8 +177,8 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
       <footer className="w-full mt-8 py-10 px-4 sm:px-6 text-xs text-slate-700">
         <div className="max-w-7xl mx-auto sky-card rounded-3xl p-6 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-6 border border-white/80">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-lime-400 text-slate-950 flex items-center justify-center font-black text-xs shadow-xs border border-lime-300">
-              <Crown className="w-4 h-4 text-slate-950 fill-slate-950" />
+            <div className="w-8 h-8 rounded-xl bg-[#0052FF] text-white flex items-center justify-center font-black text-xs shadow-xs border border-blue-400/40">
+              <Crown className="w-4 h-4 text-white fill-white" />
             </div>
             <div>
               <span className="font-extrabold text-slate-950 text-sm">RoyalBase</span>
@@ -205,7 +205,7 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
             </a>
             <button
               onClick={onLaunchApp}
-              className="font-black text-slate-950 bg-lime-300/80 hover:bg-lime-300 px-3.5 py-1.5 rounded-full border border-lime-200 transition-all cursor-pointer"
+              className="font-black text-white bg-[#0052FF] hover:bg-[#0045d8] px-4 py-1.5 rounded-full border border-blue-400/40 transition-all cursor-pointer shadow-[0_2px_8px_rgba(0,82,255,0.3)]"
             >
               Buka App
             </button>

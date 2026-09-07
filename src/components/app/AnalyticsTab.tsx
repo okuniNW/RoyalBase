@@ -37,7 +37,7 @@ export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-sky-100/70 pb-4">
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/70 text-[10px] font-mono font-black text-sky-900 border border-white/80 mb-2">
-              <Sparkles className="w-3 h-3 text-lime-600" />
+              <Sparkles className="w-3 h-3 text-[#0052FF]" />
               <span>LOYALTY TIERS · ROYALPOINTS (RP)</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
@@ -62,7 +62,7 @@ export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
             <div className="text-2xl sm:text-3xl font-black text-slate-950 mt-1.5">
               {userExp.toLocaleString()} RP
             </div>
-            <div className="text-[11px] text-emerald-700 font-bold mt-1">✓ Onchain Verified di Base</div>
+            <div className="text-[11px] text-[#0052FF] font-bold mt-1">✓ Onchain Verified di Base</div>
           </div>
 
           <div className="sky-card-solid rounded-2xl p-5 font-mono border border-white/90 shadow-xs">
@@ -71,7 +71,7 @@ export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
               <span>{currentTier.name}</span>
               <Crown className="w-5 h-5 text-amber-500" />
             </div>
-            <div className="text-[11px] text-sky-800 font-bold mt-1 bg-sky-100/70 px-2 py-0.5 rounded-full inline-block">
+            <div className="text-[11px] text-[#0052FF] font-bold mt-1 bg-blue-50 px-2 py-0.5 rounded-full inline-block border border-blue-100">
               Multiplier {currentTier.rpMultiplier}x Boost
             </div>
           </div>
@@ -100,7 +100,7 @@ export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
 
           <div className="w-full h-3.5 bg-sky-100/80 rounded-full overflow-hidden p-0.5 border border-sky-200/60">
             <div
-              className="h-full bg-lime-400 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(163,230,53,0.6)]"
+              className="h-full bg-[#0052FF] rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(0,82,255,0.4)]"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -120,13 +120,13 @@ export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
                   key={tier.name}
                   className={`p-4 rounded-2xl border text-xs transition-all ${
                     isUserTier
-                      ? 'bg-white/95 border-lime-400 ring-2 ring-lime-400/40 shadow-sm'
+                      ? 'bg-white/95 border-[#0052FF] ring-2 ring-[#0052FF]/30 shadow-sm'
                       : 'bg-white/60 border-white/80'
                   }`}
                 >
                   <div className="flex items-center justify-between font-mono mb-1.5">
                     <span className="font-black text-sm text-slate-950">{tier.name}</span>
-                    <span className="text-[11px] font-black text-slate-950 bg-lime-400 px-2 py-0.5 rounded-full">{tier.rpMultiplier}x</span>
+                    <span className="text-[11px] font-black text-white bg-[#0052FF] px-2 py-0.5 rounded-full shadow-xs">{tier.rpMultiplier}x</span>
                   </div>
                   <div className="text-[10px] font-mono text-slate-600 font-bold mb-2.5">
                     {tier.maxPoints === Infinity
@@ -137,7 +137,7 @@ export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
                   <ul className="space-y-1.5 text-[11px] text-slate-700 pt-2.5 border-t border-slate-200/60 font-medium">
                     {tier.perks.map((p, i) => (
                       <li key={i} className="flex items-start gap-1.5 leading-tight">
-                        <span className="text-emerald-700 font-black">·</span>
+                        <span className="text-[#0052FF] font-black">·</span>
                         <span>{p}</span>
                       </li>
                     ))}

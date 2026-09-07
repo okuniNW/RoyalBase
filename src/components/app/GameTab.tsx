@@ -112,8 +112,8 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-4 space-y-6 text-left">
       {/* Toast Notification */}
       {successToast && (
-        <div className="fixed top-20 right-4 sm:right-6 z-50 bg-slate-950/95 backdrop-blur-xl border border-lime-400 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-mono animate-in fade-in slide-in-from-top-2">
-          <CheckCircle2 className="w-4 h-4 text-lime-400 shrink-0" />
+        <div className="fixed top-20 right-4 sm:right-6 z-50 bg-slate-950/95 backdrop-blur-xl border border-[#0052FF] text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-mono animate-in fade-in slide-in-from-top-2">
+          <CheckCircle2 className="w-4 h-4 text-[#0052FF] shrink-0" />
           <span className="font-bold">{successToast}</span>
           <button 
             onClick={() => setSuccessToast(null)} 
@@ -129,7 +129,7 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
       <div className="sky-card rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-white/80 shadow-[0_8px_30px_rgba(12,74,110,0.06)]">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="w-2 h-2 rounded-full bg-lime-500 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#0052FF] animate-pulse" />
             <span className="text-[11px] font-mono font-bold text-sky-900 uppercase tracking-wider bg-white/70 px-2.5 py-0.5 rounded-full border border-white/80">
               RoyalBase GameFi Hub · Base Mainnet
             </span>
@@ -146,11 +146,11 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
         <div className="flex items-center gap-3 font-mono shrink-0">
           <div className="sky-card-solid rounded-2xl p-3 sm:p-4 text-right border border-white/90 shadow-xs">
             <div className="text-[11px] text-sky-900 font-bold flex items-center justify-end gap-1.5 mb-0.5">
-              <Trophy className="w-3.5 h-3.5 text-lime-600" />
+              <Trophy className="w-3.5 h-3.5 text-[#0052FF]" />
               <span>Prize Pool Harian</span>
             </div>
             <div className="text-base sm:text-lg font-black text-slate-950">
-              {INITIAL_PRIZE_POOL.totalEth} ETH <span className="text-xs font-bold text-emerald-600">(${INITIAL_PRIZE_POOL.usdValue.toLocaleString()})</span>
+              {INITIAL_PRIZE_POOL.totalEth} ETH <span className="text-xs font-bold text-[#0052FF]">(${INITIAL_PRIZE_POOL.usdValue.toLocaleString()})</span>
             </div>
           </div>
         </div>
@@ -167,14 +167,14 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
           <div className="flex items-start justify-between border-b border-sky-100/70 pb-4">
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100/90 text-emerald-800 border border-emerald-200 text-[10px] font-mono font-black">
+                <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0052FF] border border-blue-200 text-[10px] font-mono font-black">
                   ● LIVE DI BASE
                 </span>
                 <span className="text-[11px] font-mono text-sky-900/70 font-bold">v2.4.1</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight flex items-center gap-2">
                 <span className="font-bubble text-slate-950">TipGame Protocol</span>
-                <Coins className="w-5 h-5 text-lime-600" />
+                <Coins className="w-5 h-5 text-[#0052FF]" />
               </h3>
               <p className="text-xs text-slate-700 font-medium mt-1">
                 Kirim tip ETH langsung ke kreator, alokasikan 2% ke undian prize pool, dan cetak Royal Points.
@@ -206,7 +206,7 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
                     onClick={() => setSelectedCreatorId(c.id)}
                     className={`w-full p-3 rounded-2xl border text-left transition-all flex items-center justify-between gap-3 cursor-pointer ${
                       isSelected
-                        ? 'bg-white/95 border-lime-400 ring-2 ring-lime-400/40 shadow-sm'
+                        ? 'bg-white/95 border-[#0052FF] ring-2 ring-[#0052FF]/30 shadow-sm'
                         : 'bg-white/60 border-white/70 hover:bg-white/85 hover:border-sky-200'
                     }`}
                   >
@@ -228,7 +228,7 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
 
                     <div className="text-right shrink-0 font-mono">
                       <div className="text-xs font-black text-slate-950">{c.totalTipsReceivedEth.toFixed(2)} ETH</div>
-                      <div className="text-[10px] text-emerald-700 font-bold">{c.crownRank}</div>
+                      <div className="text-[10px] text-[#0052FF] font-bold">{c.crownRank}</div>
                     </div>
                   </button>
                 );
@@ -255,7 +255,7 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
                   }}
                   className={`py-2 px-1 rounded-xl text-xs font-mono font-black border transition-all cursor-pointer ${
                     !customAmount && tipAmount === amt
-                      ? 'bg-lime-400 text-slate-950 border-lime-300 shadow-[0_2px_8px_rgba(163,230,53,0.4)]'
+                      ? 'bg-[#0052FF] text-white border-blue-400/40 shadow-[0_2px_8px_rgba(0,82,255,0.35)]'
                       : 'bg-white/70 text-slate-800 border-white/80 hover:bg-white'
                   }`}
                 >
@@ -272,7 +272,7 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
                 placeholder="Jumlah ETH kustom..."
                 value={customAmount}
                 onChange={(e) => setCustomAmount(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/75 border border-white/80 rounded-xl focus:outline-none focus:bg-white focus:border-lime-400 text-slate-950 shadow-xs font-bold"
+                className="w-full px-3.5 py-2.5 text-xs font-mono bg-white/75 border border-white/80 rounded-xl focus:outline-none focus:bg-white focus:border-[#0052FF] text-slate-950 shadow-xs font-bold"
               />
               <span className="absolute right-3.5 top-2.5 text-xs font-mono font-bold text-sky-900">ETH</span>
             </div>
@@ -288,7 +288,7 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
               value={tipMessage}
               onChange={(e) => setTipMessage(e.target.value)}
               placeholder="Tulis pesan penyemangat onchain..."
-              className="w-full px-3.5 py-2.5 text-xs bg-white/75 border border-white/80 rounded-xl focus:outline-none focus:bg-white focus:border-lime-400 text-slate-950 shadow-xs font-medium"
+              className="w-full px-3.5 py-2.5 text-xs bg-white/75 border border-white/80 rounded-xl focus:outline-none focus:bg-white focus:border-[#0052FF] text-slate-950 shadow-xs font-medium"
             />
           </div>
 
@@ -304,11 +304,11 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
             </div>
             <div className="flex items-center justify-between">
               <span className="text-slate-600">Perkiraan Gas Fee Base:</span>
-              <span className="font-bold text-emerald-600">&lt; $0.001 USD</span>
+              <span className="font-bold text-[#0052FF]">&lt; $0.001 USD</span>
             </div>
             <div className="flex items-center justify-between pt-2 border-t border-slate-100">
               <span className="font-black text-slate-950">Royal Points (RP):</span>
-              <span className="font-black text-emerald-700">+{rpEarned} RP</span>
+              <span className="font-black text-[#0052FF]">+{rpEarned} RP</span>
             </div>
           </div>
 
@@ -316,11 +316,11 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
           <button
             onClick={handleSendTip}
             disabled={isSending || activeAmount <= 0}
-            className="w-full py-3.5 px-5 rounded-full bg-lime-400 hover:bg-lime-300 active:bg-lime-500 text-slate-950 text-sm font-black tracking-tight flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(163,230,53,0.4)] border border-lime-300 transition-all cursor-pointer disabled:opacity-50"
+            className="w-full py-3.5 px-5 rounded-full bg-[#0052FF] hover:bg-[#0045d8] active:bg-[#003bb8] text-white text-sm font-black tracking-tight flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(0,82,255,0.4)] border border-blue-400/40 transition-all cursor-pointer disabled:opacity-50"
           >
             {isSending ? (
               <span className="flex items-center gap-2 font-mono text-xs">
-                <span className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
+                <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 <span>Memproses Transaksi di Base...</span>
               </span>
             ) : (
@@ -374,7 +374,7 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
                   key={idx}
                   className={`h-20 sm:h-24 rounded-2xl bg-white/90 border flex items-center justify-center text-3xl sm:text-4xl shadow-sm select-none transition-transform ${
                     isSpinning 
-                      ? 'animate-bounce border-lime-400 text-lime-600' 
+                      ? 'animate-bounce border-[#0052FF] text-[#0052FF]' 
                       : 'border-sky-100 text-slate-950'
                   }`}
                 >

@@ -96,7 +96,7 @@ export function AppShell({
             id="bottom-tab-game"
             className={`flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs font-black transition-all cursor-pointer ${
               activeTab === 'game'
-                ? 'bg-lime-400 text-slate-950 shadow-[0_2px_10px_rgba(163,230,53,0.4)] border border-lime-300'
+                ? 'bg-[#0052FF] text-white shadow-[0_2px_10px_rgba(0,82,255,0.4)] border border-blue-400/40'
                 : 'text-slate-700 hover:text-slate-950 hover:bg-white/70'
             }`}
           >
@@ -110,7 +110,7 @@ export function AppShell({
             id="bottom-tab-wallet"
             className={`flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs font-black transition-all cursor-pointer ${
               activeTab === 'wallet'
-                ? 'bg-lime-400 text-slate-950 shadow-[0_2px_10px_rgba(163,230,53,0.4)] border border-lime-300'
+                ? 'bg-[#0052FF] text-white shadow-[0_2px_10px_rgba(0,82,255,0.4)] border border-blue-400/40'
                 : 'text-slate-700 hover:text-slate-950 hover:bg-white/70'
             }`}
           >
@@ -124,7 +124,7 @@ export function AppShell({
             id="bottom-tab-analytics"
             className={`flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs font-black transition-all cursor-pointer ${
               activeTab === 'analytics'
-                ? 'bg-lime-400 text-slate-950 shadow-[0_2px_10px_rgba(163,230,53,0.4)] border border-lime-300'
+                ? 'bg-[#0052FF] text-white shadow-[0_2px_10px_rgba(0,82,255,0.4)] border border-blue-400/40'
                 : 'text-slate-700 hover:text-slate-950 hover:bg-white/70'
             }`}
           >

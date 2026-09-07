@@ -94,7 +94,7 @@ export function WalletTab({ userExp }: WalletTabProps) {
               Fitur Smart Wallet V2 yang Akan Datang
             </h3>
           </div>
-          <span className="text-xs font-mono font-black text-slate-950 bg-lime-400 px-3 py-1 rounded-full border border-lime-300 shadow-xs">
+          <span className="text-xs font-mono font-black text-white bg-[#0052FF] px-3 py-1 rounded-full border border-blue-400/30 shadow-xs">
             Target: Q2 2026
           </span>
         </div>

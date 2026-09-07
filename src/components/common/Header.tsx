@@ -30,16 +30,16 @@ export function Header({ currentRoute, onNavigate }: HeaderProps) {
             className="flex items-center gap-3 text-left group focus:outline-none"
             id="brand-home-btn"
           >
-            {/* 3D Inflatable Royal Badge */}
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-b from-lime-300 via-lime-400 to-lime-500 shadow-[0_4px_12px_rgba(132,204,22,0.4),inset_0_2px_2px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(77,124,15,0.3)] flex items-center justify-center text-slate-950 font-black text-base tracking-tighter transition-transform group-hover:scale-105 active:scale-95 border border-lime-200">
-              <Crown className="w-5 h-5 text-slate-950 fill-slate-950" />
+            {/* 3D Inflatable Royal Badge with Coinbase Blue */}
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-b from-[#3b82f6] via-[#0052FF] to-[#0040cc] shadow-[0_4px_12px_rgba(0,82,255,0.45),inset_0_2px_2px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,35,120,0.3)] flex items-center justify-center text-white font-black text-base tracking-tighter transition-transform group-hover:scale-105 active:scale-95 border border-blue-300/40">
+              <Crown className="w-5 h-5 text-white fill-white" />
             </div>
 
             <div className="flex flex-col">
               <span className="font-bubble text-xl font-bold tracking-tight text-slate-950 leading-none flex items-center gap-1 drop-shadow-xs">
                 RoyalBase
               </span>
-              <span className="text-[10px] font-mono text-sky-900 font-bold tracking-widest uppercase mt-0.5">
+              <span className="text-[10px] font-mono text-[#0052FF] font-extrabold tracking-widest uppercase mt-0.5">
                 Base L2 · GameFi
               </span>
             </div>
@@ -63,7 +63,7 @@ export function Header({ currentRoute, onNavigate }: HeaderProps) {
               id="nav-app-btn"
               className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all flex items-center gap-1.5 ${
                 currentRoute === 'app'
-                  ? 'bg-lime-400 text-black shadow-[0_2px_8px_rgba(163,230,53,0.4)] border border-lime-300'
+                  ? 'bg-[#0052FF] text-white shadow-[0_2px_10px_rgba(0,82,255,0.4)] border border-blue-400/40'
                   : 'bg-white/60 hover:bg-white/90 text-slate-700 hover:text-slate-950 border border-white/70'
               }`}
             >
@@ -78,8 +78,8 @@ export function Header({ currentRoute, onNavigate }: HeaderProps) {
           {/* Base Mainnet status indicator pill */}
           <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/75 backdrop-blur-md border border-white/70 text-[11px] font-mono text-slate-800 shadow-xs">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0052FF] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0052FF]"></span>
             </span>
             <span className="font-bold text-slate-800">Base Mainnet</span>
           </div>
@@ -111,7 +111,7 @@ export function Header({ currentRoute, onNavigate }: HeaderProps) {
                   <span className="text-[11px] font-mono font-bold text-sky-900 uppercase tracking-wider">
                     Quick Navigation
                   </span>
-                  <span className="text-[10px] font-mono bg-lime-100 text-lime-800 px-2 py-0.5 rounded-full font-bold">
+                  <span className="text-[10px] font-mono bg-blue-100 text-[#0052FF] px-2 py-0.5 rounded-full font-bold">
                     8453
                   </span>
                 </div>
@@ -131,7 +131,7 @@ export function Header({ currentRoute, onNavigate }: HeaderProps) {
                       onNavigate('app');
                       setMenuOpen(false);
                     }}
-                    className="w-full text-left px-3 py-2 rounded-xl bg-lime-300/60 hover:bg-lime-300 text-slate-900 font-extrabold flex items-center justify-between transition-colors"
+                    className="w-full text-left px-3 py-2 rounded-xl bg-[#0052FF] hover:bg-[#0045d8] text-white font-extrabold flex items-center justify-between transition-colors shadow-xs"
                   >
                     <span>Buka App (TipGame)</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
