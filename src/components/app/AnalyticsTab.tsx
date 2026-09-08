@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { LeaderboardEntry } from '../../types';
 import { TIERS_CONFIG } from '../../data/protocolData';
-import { Trophy, Sparkles, Crown, ArrowUpRight, TrendingUp, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Trophy, Sparkles, Crown, ArrowUpRight, TrendingUp, ShieldCheck, CheckCircle2, ArrowUpDown, Clock } from 'lucide-react';
 import { CONTRACT_ADDRESSES, getBaseScanAddressUrl } from '../../config/contracts';
+import { formatTimeAgo } from '../../utils/formatters';
 
 interface AnalyticsTabProps {
   leaderboard: LeaderboardEntry[];
@@ -11,6 +12,7 @@ interface AnalyticsTabProps {
 
 export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
   const [leaderboardFilter, setLeaderboardFilter] = useState<'all' | 'tipper' | 'creator'>('all');
+  const [sortBy, setSortBy] = useState<'top' | 'recent'>('top');
 
   // Find user current tier based on userExp
   const currentTier =
@@ -25,10 +27,22 @@ export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
 
   const pointsToNext = nextTier ? nextTier.minPoints - userExp : 0;
 
-  const filteredLeaderboard = leaderboard.filter((entry) => {
-    if (leaderboardFilter === 'all') return true;
-    return entry.role === leaderboardFilter;
-  });
+  const sortedLeaderboard = useMemo(() => {
+    const list = leaderboard.filter((entry) => {
+      if (leaderboardFilter === 'all') return true;
+      return entry.role === leaderboardFilter;
+    });
+
+    return [...list].sort((a, b) => {
+      if (sortBy === 'top') {
+        return b.totalAmountEth - a.totalAmountEth;
+      } else {
+        const timeA = a.lastActiveTimestamp || 0;
+        const timeB = b.lastActiveTimestamp || 0;
+        return timeB - timeA;
+      }
+    });
+  }, [leaderboard, leaderboardFilter, sortBy]);
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-4 space-y-6 text-left">
@@ -162,38 +176,58 @@ export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
             </h2>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex items-center gap-1 bg-white/80 p-1.5 rounded-full border border-white shadow-xs text-xs font-bold">
-            <button
-              onClick={() => setLeaderboardFilter('all')}
-              className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${
-                leaderboardFilter === 'all'
-                  ? 'bg-slate-950 text-white shadow-xs'
-                  : 'text-slate-700 hover:text-slate-950'
-              }`}
-            >
-              Semua
-            </button>
-            <button
-              onClick={() => setLeaderboardFilter('tipper')}
-              className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${
-                leaderboardFilter === 'tipper'
-                  ? 'bg-slate-950 text-white shadow-xs'
-                  : 'text-slate-700 hover:text-slate-950'
-              }`}
-            >
-              Top Tipper
-            </button>
-            <button
-              onClick={() => setLeaderboardFilter('creator')}
-              className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${
-                leaderboardFilter === 'creator'
-                  ? 'bg-slate-950 text-white shadow-xs'
-                  : 'text-slate-700 hover:text-slate-950'
-              }`}
-            >
-              Top Kreator
-            </button>
+          {/* Filter & Sort Controls */}
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Dropdown Filter for Sorting */}
+            <div className="flex items-center gap-2 bg-white/90 border border-sky-100 rounded-full px-3.5 py-1.5 shadow-xs">
+              <ArrowUpDown className="w-3.5 h-3.5 text-[#0052FF] shrink-0" />
+              <label htmlFor="analytics-leaderboard-sort" className="text-[11px] font-bold text-slate-500 uppercase font-mono">
+                Urutkan:
+              </label>
+              <select
+                id="analytics-leaderboard-sort"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'top' | 'recent')}
+                className="bg-transparent font-bold text-xs text-slate-950 focus:outline-none cursor-pointer pr-1"
+              >
+                <option value="top">Top Tipped</option>
+                <option value="recent">Most Recent</option>
+              </select>
+            </div>
+
+            {/* Role Filter Pills */}
+            <div className="flex items-center gap-1 bg-white/80 p-1.5 rounded-full border border-white shadow-xs text-xs font-bold">
+              <button
+                onClick={() => setLeaderboardFilter('all')}
+                className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${
+                  leaderboardFilter === 'all'
+                    ? 'bg-slate-950 text-white shadow-xs'
+                    : 'text-slate-700 hover:text-slate-950'
+                }`}
+              >
+                Semua
+              </button>
+              <button
+                onClick={() => setLeaderboardFilter('tipper')}
+                className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${
+                  leaderboardFilter === 'tipper'
+                    ? 'bg-slate-950 text-white shadow-xs'
+                    : 'text-slate-700 hover:text-slate-950'
+                }`}
+              >
+                Top Tipper
+              </button>
+              <button
+                onClick={() => setLeaderboardFilter('creator')}
+                className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${
+                  leaderboardFilter === 'creator'
+                    ? 'bg-slate-950 text-white shadow-xs'
+                    : 'text-slate-700 hover:text-slate-950'
+                }`}
+              >
+                Top Kreator
+              </button>
+            </div>
           </div>
         </div>
 
@@ -206,76 +240,86 @@ export function AnalyticsTab({ leaderboard, userExp }: AnalyticsTabProps) {
                 <th className="py-3 px-3">Pengguna</th>
                 <th className="py-3 px-3">Peran</th>
                 <th className="py-3 px-3">Total ETH</th>
-                <th className="py-3 px-3">Total Tip</th>
+                <th className="py-3 px-3">{sortBy === 'recent' ? 'Aktivitas Terakhir' : 'Total Tip'}</th>
                 <th className="py-3 px-3">Crown Rank</th>
                 <th className="py-3 px-3 text-right">BaseScan</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-sky-100/60">
-              {filteredLeaderboard.map((item) => (
-                <tr key={item.rank} className="hover:bg-white/50 transition-colors">
-                  <td className="py-3 px-3 font-bold">
-                    <span
-                      className={`inline-flex items-center justify-center w-7 h-7 rounded-xl text-xs font-black shadow-xs ${
-                        item.rank === 1
-                          ? 'bg-amber-300 text-amber-950'
-                          : item.rank === 2
-                          ? 'bg-slate-200 text-slate-900'
-                          : item.rank === 3
-                          ? 'bg-amber-100 text-amber-900'
-                          : 'bg-white/60 text-slate-700'
-                      }`}
-                    >
-                      #{item.rank}
-                    </span>
-                  </td>
-                  <td className="py-3 px-3 font-sans">
-                    <div className="flex items-center gap-2.5">
-                      <img
-                        src={item.avatarUrl}
-                        alt={item.name}
-                        className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-xs"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div>
-                        <div className="font-black text-slate-950 text-xs leading-none">{item.name}</div>
-                        <div className="font-mono text-[10px] text-slate-500 font-bold mt-0.5">{item.handle}</div>
+              {sortedLeaderboard.map((item, index) => {
+                const displayRank = index + 1;
+                return (
+                  <tr key={`${item.name}-${displayRank}`} className="hover:bg-white/50 transition-colors">
+                    <td className="py-3 px-3 font-bold">
+                      <span
+                        className={`inline-flex items-center justify-center w-7 h-7 rounded-xl text-xs font-black shadow-xs ${
+                          displayRank === 1
+                            ? 'bg-amber-300 text-amber-950'
+                            : displayRank === 2
+                            ? 'bg-slate-200 text-slate-900'
+                            : displayRank === 3
+                            ? 'bg-amber-100 text-amber-900'
+                            : 'bg-white/60 text-slate-700'
+                        }`}
+                      >
+                        #{displayRank}
+                      </span>
+                    </td>
+                    <td className="py-3 px-3 font-sans">
+                      <div className="flex items-center gap-2.5">
+                        <img
+                          src={item.avatarUrl}
+                          alt={item.name}
+                          className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-xs"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div>
+                          <div className="font-black text-slate-950 text-xs leading-none">{item.name}</div>
+                          <div className="font-mono text-[10px] text-slate-500 font-bold mt-0.5">{item.handle}</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="py-3 px-3">
-                    <span
-                      className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black ${
-                        item.role === 'tipper'
-                          ? 'bg-sky-100 text-sky-900 border border-sky-200'
-                          : 'bg-emerald-100 text-emerald-900 border border-emerald-200'
-                      }`}
-                    >
-                      {item.role}
-                    </span>
-                  </td>
-                  <td className="py-3 px-3 font-black text-slate-950 text-xs">
-                    {item.totalAmountEth.toFixed(2)} ETH
-                  </td>
-                  <td className="py-3 px-3 text-slate-600 font-bold">
-                    {item.tipsCount} tx
-                  </td>
-                  <td className="py-3 px-3">
-                    <span className="text-amber-800 font-black text-[11px] bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60">{item.crownRank}</span>
-                  </td>
-                  <td className="py-3 px-3 text-right">
-                    <a
-                      href={getBaseScanAddressUrl(item.address)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sky-800 hover:text-sky-950 font-bold inline-flex items-center gap-1 text-[11px]"
-                    >
-                      <span>Lihat</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </a>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td className="py-3 px-3">
+                      <span
+                        className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black ${
+                          item.role === 'tipper'
+                            ? 'bg-sky-100 text-sky-900 border border-sky-200'
+                            : 'bg-emerald-100 text-emerald-900 border border-emerald-200'
+                        }`}
+                      >
+                        {item.role}
+                      </span>
+                    </td>
+                    <td className="py-3 px-3 font-black text-slate-950 text-xs">
+                      {item.totalAmountEth.toFixed(2)} ETH
+                    </td>
+                    <td className="py-3 px-3 text-slate-600 font-bold">
+                      {sortBy === 'recent' ? (
+                        <span className="inline-flex items-center gap-1 text-[#0052FF] bg-blue-50/80 px-2 py-0.5 rounded-md text-[11px] font-bold">
+                          <Clock className="w-3 h-3" />
+                          {formatTimeAgo(item.lastActiveTimestamp)}
+                        </span>
+                      ) : (
+                        `${item.tipsCount} tx`
+                      )}
+                    </td>
+                    <td className="py-3 px-3">
+                      <span className="text-amber-800 font-black text-[11px] bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60">{item.crownRank}</span>
+                    </td>
+                    <td className="py-3 px-3 text-right">
+                      <a
+                        href={getBaseScanAddressUrl(item.address)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#0052FF] hover:text-[#0047e0] font-bold inline-flex items-center gap-1 text-[11px]"
+                      >
+                        <span>Lihat</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </a>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

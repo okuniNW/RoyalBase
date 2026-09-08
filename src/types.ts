@@ -19,6 +19,7 @@ export interface GamerProfile {
   address: `0x${string}`;
   bio: string;
   activeBuff?: string;
+  lastTippedAt?: number;
 }
 
 export interface LootItem {
@@ -60,6 +61,7 @@ export interface LeaderboardEntry {
   crownRank: CrownRank;
   streakDays: number;
   avatarUrl: string;
+  lastActiveTimestamp?: number;
 }
 
 export interface GuildData {

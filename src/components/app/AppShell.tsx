@@ -77,7 +77,7 @@ export function AppShell({
           />
         )}
 
-        {activeTab === 'wallet' && <WalletTab userExp={userExp} />}
+        {activeTab === 'wallet' && <WalletTab userExp={userExp} tips={recentTips} />}
 
         {activeTab === 'analytics' && (
           <AnalyticsTab leaderboard={leaderboard} userExp={userExp} />

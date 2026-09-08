@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Wallet, ExternalLink, Copy, Check, ShieldCheck, Layers, ArrowUpRight, Sparkles, Lock, Coins } from 'lucide-react';
 import { CONTRACT_ADDRESSES, getBaseScanAddressUrl } from '../../config/contracts';
+import { TipTransaction } from '../../types';
+import { INITIAL_TIPS } from '../../data/initialData';
+import { TipHistory } from '../TipHistory';
 
 interface WalletTabProps {
   userExp: number;
+  tips?: TipTransaction[];
 }
 
-export function WalletTab({ userExp }: WalletTabProps) {
+export function WalletTab({ userExp, tips = INITIAL_TIPS }: WalletTabProps) {
   const [copied, setCopied] = useState<boolean>(false);
   const userAddress = '0x71C2d8f615f269a891000B268153A0483981881B';
 
@@ -143,6 +147,15 @@ export function WalletTab({ userExp }: WalletTabProps) {
           </div>
         </div>
       </div>
+
+      {/* Riwayat Tip Wallet */}
+      <TipHistory
+        tips={tips}
+        title="Riwayat Tip Transaksi"
+        subtitle="Daftar tip yang pernah dikirim dan diterima oleh jaringan wallet Base Anda"
+        maxHeight="max-h-[400px]"
+        showSearch={true}
+      />
     </div>
   );
 }

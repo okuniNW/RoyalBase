@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GamerProfile, TipTransaction } from '../../types';
 import { INITIAL_PRIZE_POOL } from '../../data/protocolData';
+import { TipHistory } from '../TipHistory';
 import { 
   Coins, 
   Trophy, 
@@ -470,37 +471,14 @@ export function GameTab({ creators, onTipSuccess, recentTips, userExp }: GameTab
 
       </div>
 
-      {/* Recent Tips Minimalist Activity Feed */}
-      <div className="sky-card rounded-3xl p-5 sm:p-6 border border-white/80 shadow-[0_8px_30px_rgba(12,74,110,0.06)]">
-        <div className="flex items-center justify-between mb-4 border-b border-sky-100/70 pb-3">
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-sky-800" />
-            <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">
-              Aktivitas TipGame Terkini di Base
-            </h4>
-          </div>
-          <span className="text-[11px] font-mono text-sky-900/80 font-bold bg-white/60 px-2.5 py-0.5 rounded-full">Onchain Feed</span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          {recentTips.slice(0, 3).map((tip) => (
-            <div
-              key={tip.id}
-              className="bg-white/70 border border-white/80 rounded-2xl p-3.5 text-xs font-mono space-y-1.5 shadow-xs"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-black text-slate-950 truncate">{tip.recipientName}</span>
-                <span className="text-sky-700 font-black">+{tip.amount} ETH</span>
-              </div>
-              <p className="text-[11px] text-slate-600 truncate italic font-sans">"{tip.message}"</p>
-              <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1.5 border-t border-slate-100 font-bold">
-                <span>{tip.senderAddress}</span>
-                <span className="text-emerald-700">+{tip.expEarned} RP</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Log Transaksi Tip Terkini Onchain */}
+      <TipHistory 
+        tips={recentTips} 
+        title="Log Transaksi Tip Terkini"
+        subtitle="Daftar riwayat tip onchain real-time di Base dengan alamat pengirim dan nominal"
+        maxHeight="max-h-[460px]"
+        showSearch={true}
+      />
     </div>
   );
 }

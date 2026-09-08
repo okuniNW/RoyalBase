@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { GamerProfile } from '../types';
-import { Crown, Zap, Shield, Search, Sparkles, Radio, CheckCircle2, ChevronRight, Swords } from 'lucide-react';
+import { Crown, Zap, Shield, Search, Sparkles, Radio, CheckCircle2, ChevronRight, Swords, ArrowUpDown, Clock } from 'lucide-react';
 import { sounds } from '../utils/audio';
+import { formatTimeAgo } from '../utils/formatters';
 
 interface ArenaViewProps {
   creators: GamerProfile[];
@@ -16,6 +17,7 @@ export const ArenaView: React.FC<ArenaViewProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<'top' | 'recent'>('top');
 
   const categories = ['All', 'Live Now', 'Base RPG', 'Parallel TCG', 'FrenPet', 'Esports Arena', 'Base Builders'];
 
@@ -33,6 +35,18 @@ export const ArenaView: React.FC<ArenaViewProps> = ({
     }
     return true;
   });
+
+  const sortedCreators = useMemo(() => {
+    return [...filteredCreators].sort((a, b) => {
+      if (sortBy === 'top') {
+        return b.totalTipsReceivedEth - a.totalTipsReceivedEth;
+      } else {
+        const timeA = a.lastTippedAt || 0;
+        const timeB = b.lastTippedAt || 0;
+        return timeB - timeA;
+      }
+    });
+  }, [filteredCreators, sortBy]);
 
   // Spotlight Sovereign King
   const sovereignKing = creators.find((c) => c.crownRank === 'Sovereign King') || creators[0];
@@ -148,23 +162,43 @@ export const ArenaView: React.FC<ArenaViewProps> = ({
           ))}
         </div>
 
-        {/* Search input */}
-        <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 text-[#606f8c] absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            id="arena-search-input"
-            type="text"
-            placeholder="Cari kreator, game, atau guild..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#11151e] border border-[#1b2333] focus:border-[#0052FF] text-sm text-white placeholder-[#5a6884] rounded-lg pl-9 pr-3 py-1.5 outline-none transition-colors"
-          />
+        {/* Sort and Search controls */}
+        <div className="flex items-center gap-3">
+          {/* Dropdown Filter for Sorting */}
+          <div className="flex items-center gap-1.5 bg-[#11151e] border border-[#1b2333] rounded-lg px-3 py-1.5 shadow-xs shrink-0">
+            <ArrowUpDown className="w-3.5 h-3.5 text-[#0052FF]" />
+            <label htmlFor="arena-creator-sort" className="text-xs text-[#8e9bb5] font-mono whitespace-nowrap">
+              Urutkan:
+            </label>
+            <select
+              id="arena-creator-sort"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'top' | 'recent')}
+              className="bg-transparent text-xs text-white font-bold focus:outline-none cursor-pointer pr-1"
+            >
+              <option value="top" className="bg-[#11151e] text-white">Top Tipped</option>
+              <option value="recent" className="bg-[#11151e] text-white">Most Recent</option>
+            </select>
+          </div>
+
+          {/* Search input */}
+          <div className="relative w-full md:w-60">
+            <Search className="w-4 h-4 text-[#606f8c] absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              id="arena-search-input"
+              type="text"
+              placeholder="Cari kreator..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[#11151e] border border-[#1b2333] focus:border-[#0052FF] text-sm text-white placeholder-[#5a6884] rounded-lg pl-9 pr-3 py-1.5 outline-none transition-colors"
+            />
+          </div>
         </div>
       </div>
 
       {/* Grid of Creators / Streamers */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filteredCreators.map((creator) => (
+        {sortedCreators.map((creator) => (
           <div
             key={creator.id}
             id={`creator-card-${creator.id}`}
@@ -212,6 +246,20 @@ export const ArenaView: React.FC<ArenaViewProps> = ({
                     {creator.gameTitle}
                   </div>
                 </div>
+              </div>
+
+              {/* Tips & Activity Badge */}
+              <div className="flex items-center justify-between text-xs py-1.5 px-2.5 rounded-lg bg-[#141a26] border border-[#1e2638] mb-3">
+                <div className="flex items-center gap-1 text-[#8e9bb5]">
+                  <span>Tip:</span>
+                  <span className="font-mono font-bold text-white">{creator.totalTipsReceivedEth.toFixed(2)} ETH</span>
+                </div>
+                {creator.lastTippedAt && (
+                  <div className="flex items-center gap-1 text-[#0052FF] font-mono text-[11px] font-semibold">
+                    <Clock className="w-3 h-3" />
+                    <span>{formatTimeAgo(creator.lastTippedAt)}</span>
+                  </div>
+                )}
               </div>
 
               {/* Bio / Description */}

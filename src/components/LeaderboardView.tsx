@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { LeaderboardEntry, GuildData } from '../types';
 import { INITIAL_GUILDS } from '../data/initialData';
-import { Crown, Trophy, Swords, Flame, Sparkles, Shield, User, Award } from 'lucide-react';
+import { Crown, Trophy, Swords, Flame, Sparkles, Shield, User, Award, ArrowUpDown, Clock } from 'lucide-react';
 import { sounds } from '../utils/audio';
+import { formatTimeAgo } from '../utils/formatters';
 
 interface LeaderboardViewProps {
   entries: LeaderboardEntry[];
@@ -14,6 +15,19 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
   guilds = INITIAL_GUILDS,
 }) => {
   const [subTab, setSubTab] = useState<'individual' | 'guilds'>('individual');
+  const [sortBy, setSortBy] = useState<'top' | 'recent'>('top');
+
+  const sortedEntries = useMemo(() => {
+    return [...entries].sort((a, b) => {
+      if (sortBy === 'top') {
+        return b.totalAmountEth - a.totalAmountEth;
+      } else {
+        const timeA = a.lastActiveTimestamp || 0;
+        const timeB = b.lastActiveTimestamp || 0;
+        return timeB - timeA;
+      }
+    });
+  }, [entries, sortBy]);
 
   const getRankBadge = (rank: number) => {
     switch (rank) {
@@ -59,37 +73,57 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
           </p>
         </div>
 
-        {/* Tab switch */}
-        <div className="flex items-center gap-1 bg-[#10141d] p-1 rounded-lg border border-[#1b2333]">
-          <button
-            id="tab-sub-individual"
-            onClick={() => {
-              setSubTab('individual');
-              sounds.playCoin();
-            }}
-            className={`px-4 py-1.5 rounded-md text-xs font-bold transition-colors ${
-              subTab === 'individual'
-                ? 'bg-[#0052FF] text-white'
-                : 'text-[#8e9bb5] hover:text-white'
-            }`}
-          >
-            Individu (Patron & Streamer)
-          </button>
-          <button
-            id="tab-sub-guilds"
-            onClick={() => {
-              setSubTab('guilds');
-              sounds.playCoin();
-            }}
-            className={`px-4 py-1.5 rounded-md text-xs font-bold transition-colors flex items-center gap-1.5 ${
-              subTab === 'guilds'
-                ? 'bg-[#0052FF] text-white'
-                : 'text-[#8e9bb5] hover:text-white'
-            }`}
-          >
-            <Swords className="w-3.5 h-3.5" />
-            <span>Guild Wars</span>
-          </button>
+        {/* Filter and Tab switch */}
+        <div className="flex flex-wrap items-center gap-3">
+          {subTab === 'individual' && (
+            <div className="flex items-center gap-1.5 bg-[#10141d] border border-[#1b2333] rounded-lg px-3 py-1.5 shadow-xs">
+              <ArrowUpDown className="w-3.5 h-3.5 text-[#0052FF]" />
+              <label htmlFor="leaderboard-view-sort" className="text-xs text-[#8e9bb5] font-mono">
+                Urutkan:
+              </label>
+              <select
+                id="leaderboard-view-sort"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'top' | 'recent')}
+                className="bg-transparent text-xs text-white font-bold focus:outline-none cursor-pointer pr-1"
+              >
+                <option value="top" className="bg-[#10141d] text-white">Top Tipped</option>
+                <option value="recent" className="bg-[#10141d] text-white">Most Recent</option>
+              </select>
+            </div>
+          )}
+
+          <div className="flex items-center gap-1 bg-[#10141d] p-1 rounded-lg border border-[#1b2333]">
+            <button
+              id="tab-sub-individual"
+              onClick={() => {
+                setSubTab('individual');
+                sounds.playCoin();
+              }}
+              className={`px-4 py-1.5 rounded-md text-xs font-bold transition-colors ${
+                subTab === 'individual'
+                  ? 'bg-[#0052FF] text-white'
+                  : 'text-[#8e9bb5] hover:text-white'
+              }`}
+            >
+              Individu (Patron & Streamer)
+            </button>
+            <button
+              id="tab-sub-guilds"
+              onClick={() => {
+                setSubTab('guilds');
+                sounds.playCoin();
+              }}
+              className={`px-4 py-1.5 rounded-md text-xs font-bold transition-colors flex items-center gap-1.5 ${
+                subTab === 'guilds'
+                  ? 'bg-[#0052FF] text-white'
+                  : 'text-[#8e9bb5] hover:text-white'
+              }`}
+            >
+              <Swords className="w-3.5 h-3.5" />
+              <span>Guild Wars</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -104,58 +138,71 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
                   <th className="py-3.5 px-4">Role</th>
                   <th className="py-3.5 px-4">Sovereign Rank</th>
                   <th className="py-3.5 px-4 text-center">Streak</th>
-                  <th className="py-3.5 px-4 text-right">Total Tipped / Received</th>
+                  <th className="py-3.5 px-4 text-right">
+                    {sortBy === 'recent' ? 'Aktivitas Terakhir / Tip' : 'Total Tipped / Received'}
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#161d2b]">
-                {entries.map((entry) => (
-                  <tr key={entry.rank} className="hover:bg-[#141a26] transition-colors">
-                    <td className="py-3.5 px-4 text-center">
-                      <div className="flex justify-center">{getRankBadge(entry.rank)}</div>
-                    </td>
+                {sortedEntries.map((entry, idx) => {
+                  const currentRank = idx + 1;
+                  return (
+                    <tr key={`${entry.name}-${currentRank}`} className="hover:bg-[#141a26] transition-colors">
+                      <td className="py-3.5 px-4 text-center">
+                        <div className="flex justify-center">{getRankBadge(currentRank)}</div>
+                      </td>
 
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={entry.avatarUrl}
-                          alt={entry.name}
-                          className="w-9 h-9 rounded-lg object-cover border border-[#243046]"
-                        />
-                        <div>
-                          <div className="font-bold text-white text-sm">{entry.name}</div>
-                          <div className="text-[#8e9bb5] font-mono text-[11px]">{entry.handle} ({entry.address})</div>
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={entry.avatarUrl}
+                            alt={entry.name}
+                            className="w-9 h-9 rounded-lg object-cover border border-[#243046]"
+                          />
+                          <div>
+                            <div className="font-bold text-white text-sm">{entry.name}</div>
+                            <div className="text-[#8e9bb5] font-mono text-[11px]">{entry.handle} ({entry.address})</div>
+                          </div>
                         </div>
-                      </div>
-                    </td>
+                      </td>
 
-                    <td className="py-3.5 px-4">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                        entry.role === 'creator'
-                          ? 'bg-[#0052FF]/20 text-[#60a5fa] border border-[#0052FF]/30'
-                          : 'bg-[#d99b26]/20 text-[#f6c358] border border-[#d99b26]/30'
-                      }`}>
-                        {entry.role === 'creator' ? 'Streamer' : 'Patron Tipper'}
-                      </span>
-                    </td>
+                      <td className="py-3.5 px-4">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                          entry.role === 'creator'
+                            ? 'bg-[#0052FF]/20 text-[#60a5fa] border border-[#0052FF]/30'
+                            : 'bg-[#d99b26]/20 text-[#f6c358] border border-[#d99b26]/30'
+                        }`}>
+                          {entry.role === 'creator' ? 'Streamer' : 'Patron Tipper'}
+                        </span>
+                      </td>
 
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-1.5 font-bold text-[#cbd2e0]">
-                        <Crown className="w-3.5 h-3.5 text-[#f6c358]" />
-                        <span>{entry.crownRank}</span>
-                      </div>
-                    </td>
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center gap-1.5 font-bold text-[#cbd2e0]">
+                          <Crown className="w-3.5 h-3.5 text-[#f6c358]" />
+                          <span>{entry.crownRank}</span>
+                        </div>
+                      </td>
 
-                    <td className="py-3.5 px-4 text-center">
-                      <span className="font-mono font-bold text-[#f59e0b] bg-[#1a2130] px-2 py-0.5 rounded">
-                        {entry.streakDays}d 🔥
-                      </span>
-                    </td>
+                      <td className="py-3.5 px-4 text-center">
+                        <span className="font-mono font-bold text-[#f59e0b] bg-[#1a2130] px-2 py-0.5 rounded">
+                          {entry.streakDays}d 🔥
+                        </span>
+                      </td>
 
-                    <td className="py-3.5 px-4 text-right font-mono font-bold text-white text-sm">
-                      {entry.totalAmountEth.toFixed(2)} ETH
-                    </td>
-                  </tr>
-                ))}
+                      <td className="py-3.5 px-4 text-right font-mono">
+                        <div className="font-bold text-white text-sm">
+                          {entry.totalAmountEth.toFixed(2)} ETH
+                        </div>
+                        {sortBy === 'recent' && (
+                          <div className="text-[10px] text-[#0052FF] flex items-center justify-end gap-1 font-bold mt-0.5">
+                            <Clock className="w-3 h-3" />
+                            <span>{formatTimeAgo(entry.lastActiveTimestamp)}</span>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
